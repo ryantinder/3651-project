@@ -18,5 +18,6 @@ app.get("/:ticker", async (req, res) => {
 })
 
 app.listen(process.env.PORT || 3333, () => {
-    console.log("Server running on port 3333")
+    console.log(process.env.PORT)
+    console.log(`Server is running on port ${process.env.PORT || 3333}...`)
 })
