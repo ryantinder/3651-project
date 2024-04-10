@@ -3,7 +3,3 @@ node_modules/
 
 # Environment variables
 .env*
-
-
-*.lockb
-bun.lockb
