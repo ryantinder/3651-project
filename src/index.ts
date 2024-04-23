@@ -13,7 +13,6 @@ export type Handler = () => Promise<Price>;
 const Handlers: Record<string, Handler> = {
     "ETH" : ETH_Handler,
     "BTC" : BTC_Handler,
-    "ADA" : ADA_Handler,
     "DOGE" : DOGE_Handler,
     "SOL" : SOL_Handler
 }
@@ -32,7 +31,7 @@ app.get("/:ticker", async (req, res) => {
     if (!Handlers[ticker.toUpperCase()]) {
         return res.status(404).json({ error: "Ticker not found" });
     }
-    
+
     res.status(200).json(await Handlers[ticker.toUpperCase()]());
 })
 
