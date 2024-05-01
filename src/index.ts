@@ -1,5 +1,6 @@
 import express from "express";
-import { ADA_Handler, BTC_Handler, DOGE_Handler, ETH_Handler, SOL_Handler } from "./handlers";
+import { ADA_Handler, ARB_Handler, BTC_Handler, DOGE_Handler, ETH_Handler, SOL_Handler } from "./handlers";
+import { ARB } from "./prices";
 
 const app = express();
 
@@ -14,7 +15,8 @@ const Handlers: Record<string, Handler> = {
     "ETH" : ETH_Handler,
     "BTC" : BTC_Handler,
     "DOGE" : DOGE_Handler,
-    "SOL" : SOL_Handler
+    "SOL" : SOL_Handler,
+    "ARB" : ARB_Handler,
 }
 
 app.use(express.json());
