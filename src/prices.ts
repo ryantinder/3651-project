@@ -50,6 +50,6 @@ export const getTickerPrice = async (ticker: string) => {
         functionName: 'price',
         args: [TICKER_TO_ADDRESS[ticker]]
     }) as [bigint, bigint]
-    return parseFloat(formatUnits(usd_price, 8))
+    return parseFloat(parseFloat(formatUnits(usd_price, 8)).toFixed(2))
 }
 // await getTickerPrice("ETH")
