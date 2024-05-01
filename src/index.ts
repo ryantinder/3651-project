@@ -1,5 +1,5 @@
 import express from "express";
-import { ADA_Handler, ARB_Handler, BTC_Handler, DOGE_Handler, ETH_Handler, SOL_Handler } from "./handlers";
+import { AAPL_Handler, ADA_Handler, AMZN_Handler, ARB_Handler, BTC_Handler, COIN_Handler, DOGE_Handler, ETH_Handler, GOOGL_Handler, META_Handler, MSFT_Handler, NVDA_Handler, SOL_Handler, TSLA_Handler } from "./handlers";
 import { ARB } from "./prices";
 
 const app = express();
@@ -17,6 +17,14 @@ const Handlers: Record<string, Handler> = {
     "DOGE" : DOGE_Handler,
     "SOL" : SOL_Handler,
     "ARB" : ARB_Handler,
+    "AAPL" : AAPL_Handler,
+    "AMZN" : AMZN_Handler,
+    "GOOGL" : GOOGL_Handler,
+    "MSFT" : MSFT_Handler,
+    "TSLA" : TSLA_Handler,
+    "NVDA" : NVDA_Handler,
+    "META" : META_Handler,
+    "COIN" : COIN_Handler,
 }
 
 app.use(express.json());

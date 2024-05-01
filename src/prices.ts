@@ -19,6 +19,21 @@ export const ChainlinkRouterAbi: Abi = [
         stateMutability: 'view'
     }
 ]
+export const ChainlinkOracleAbi: Abi = [
+    {
+        name: 'latestRoundData',
+        type: 'function',
+        inputs: [],
+        outputs: [
+            {type: 'uint80', name: 'roundId'},
+            {type: 'int256', name: 'answer'},
+            {type: 'uint256', name: 'startedAt'},
+            {type: 'uint256', name: 'updatedAt'},
+            {type: 'uint80', name: 'answeredInRound'}
+        ],
+        stateMutability: 'view'
+    }
+]
 
 const client = createPublicClient({
     transport: http(process.env.ARB_RPC!),
@@ -52,4 +67,33 @@ export const getTickerPrice = async (ticker: string) => {
     }) as [bigint, bigint]
     return parseFloat(parseFloat(formatUnits(usd_price, 8)).toFixed(2))
 }
-// await getTickerPrice("ETH")
+
+const STOCK_TO_ADDRESS: {[ticker: string] : `0x${string}` } = {
+    "AAPL": "0x8d0CC5f38f9E802475f2CFf4F9fc7000C2E1557c",
+    "AMZN": "0xd6a77691f071E98Df7217BED98f38ae6d2313EBA",
+    "COIN": "0x950DC95D4E537A14283059bADC2734977C454498",
+    "GOOGL": "0x1D1a83331e9D255EB1Aaf75026B60dFD00A252ba",
+    "META": "0xcd1bd86fDc33080DCF1b5715B6FCe04eC6F85845",
+    "MSFT": "0xDde33fb9F21739602806580bdd73BAd831DcA867",
+    "NVDA": "0x4881A4418b5F2460B21d6F08CD5aA0678a7f262F",
+    "TSLA": "0x3609baAa0a9b1f0FE4d6CC01884585d0e191C3E3"
+}
+
+export const getStockPrice = async (ticker: string) => {
+    if (!process.env.ARB_RPC) {
+        console.error("ARB_RPC not set")
+        return 0
+    }
+    if (!STOCK_TO_ADDRESS[ticker]) {
+        console.error("Ticker not supported")
+        return 0
+    }
+    const [,answer,,,] = await client.readContract({
+        abi: ChainlinkOracleAbi,
+        address: STOCK_TO_ADDRESS[ticker],
+        functionName: 'latestRoundData',
+        args: []
+    }) as [bigint, bigint, bigint, bigint, bigint]
+    return parseFloat(parseFloat(formatUnits(answer, 8)).toFixed(2))
+}
+// console.log(await getStockPrice("AAPL"))
